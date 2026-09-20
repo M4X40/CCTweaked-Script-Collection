@@ -113,9 +113,6 @@ end
 -- Logic functions
 function line()
   while currentL < tonumber(l) do
-    move()
-    ground()
-
     local isBlock, Block = turtle.inspectDown()
 
     if isBlock and (Block.name == before or (before == "*" and Block.name ~= after)) then
@@ -127,6 +124,9 @@ function line()
       end
     end
     currentL = currentL + 1
+
+    move()
+    ground()
   end
 end
 
