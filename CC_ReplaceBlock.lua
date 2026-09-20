@@ -16,7 +16,6 @@ local currentL = 0
 local currentW = 0
 local backward = false
 
-
 -- Misc functions
 function findBlock(block)
   for i=1,16 do
