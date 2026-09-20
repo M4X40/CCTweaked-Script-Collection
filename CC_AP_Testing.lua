@@ -8,7 +8,7 @@ local i = 1
 repeat
   turtle.forward()
   i = i + 1
-until i = 20
+until i == 20
 
 success, msg = core.warpToPoint("test1")
 print(success)
