@@ -13,8 +13,6 @@ else
   hud = smartglasses.modules['advancedperipherals:overlay']
 end
 
-hud
-
 local event, side, channel, replyChannel, message, distance
 repeat
   event, side, channel, replyChannel, message, distance = os.pullEvent("modem_message")
