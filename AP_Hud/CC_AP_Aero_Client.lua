@@ -3,28 +3,30 @@
 
 local CHANNEL = 115
 
--- HUD Setup
-local mod = peripheral.find("modem")
-mod.open(CHANNEL)
+while true do
+  -- HUD Setup
+  local mod = peripheral.find("modem")
+  mod.open(CHANNEL)
 
-if not smartglasses.modules['advancedperipherals:overlay'] then
-  error('No overlay module')
-else
-  hud = smartglasses.modules['advancedperipherals:overlay']
+  if not smartglasses.modules['advancedperipherals:overlay'] then
+    error('No overlay module')
+  else
+    hud = smartglasses.modules['advancedperipherals:overlay']
+  end
+
+  local event, side, channel, replyChannel, message, distance
+  repeat
+    event, side, channel, replyChannel, message, distance = os.pullEvent("modem_message")
+  until channel == CHANNEL
+
+  print("Received a reply: " .. tostring(message))
+
+  testText = {
+    x = 5,
+    y = 5,
+    z = 5,
+    content = message,
+    center = false
+  }
+  hud.createText(testText)
 end
-
-local event, side, channel, replyChannel, message, distance
-repeat
-  event, side, channel, replyChannel, message, distance = os.pullEvent("modem_message")
-until channel == CHANNEL
-
-print("Received a reply: " .. tostring(message))
-
-testText = {
-  x = 5,
-  y = 5,
-  z = 5,
-  content = message,
-  center = true
-}
-hud.createText(testText)
