@@ -16,7 +16,7 @@ local currentW = 0
 local currentD = 0
 local backward = false
 
-function find(it)
+function findItem(it)
   for i=1,16 do
     local item = turtle.getItemDetail(i)
     if item ~= nil then
@@ -96,7 +96,7 @@ function refuel()
     local slot = 0
     print("Waiting for coal")
     while slot == 0 do
-      slot = find("minecraft:coal")
+      slot = findItem("minecraft:coal")
     end
     turtle.select(slot)
     turtle.refuel(1)

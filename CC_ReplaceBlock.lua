@@ -17,7 +17,7 @@ local currentW = 0
 local backward = false
 
 -- Misc functions
-function find(block)
+function findItem(block)
   for i=1,16 do
     local item = turtle.getItemDetail(i)
     if item ~= nil then

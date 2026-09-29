@@ -15,11 +15,11 @@ local currentL = 0
 local currentW = 0
 local backward = false
 
-function find(it)
+function findItem(it)
   for i=1,16 do
     local item = turtle.getItemDetail(i)
     if item ~= nil then
-      if item and item.name == it then
+      if item and item.name:find("^"..it) ~= nil then
         print("Found "..it)
         return i
       end
@@ -90,12 +90,27 @@ function backwards()
   end
 end
 
+function toStart()
+  turtle.turnLeft()
+  for i=1,w-1 do
+    forwards()
+  end
+  turtle.turnRight()
+  if w % 2 ~= 0 then
+    for i=1,l-1 do
+      backwards()
+    end
+  else
+    backward = false
+  end
+end
+
 function refuel()
   if turtle.getFuelLevel() == 0 then
     local slot = 0
     print("Waiting for coal")
     while slot == 0 do
-      slot = find("minecraft:coal")
+      slot = findItem("minecraft:coal")
     end
     turtle.select(slot)
     turtle.refuel(1)
@@ -105,15 +120,14 @@ end
 -- Logic functions
 function line()
   while currentL < tonumber(l) do
-    while currentD < tonumber(d) do
-      local isBlock, Block = turtle.inspectDown()
-      if not isBlock then
-        local slot = findBlock(after)
-        if slot ~= 0 and slot ~= nil then
-          turtle.select(slot)
-          turtle.placeDown()
-        end
-      end
+    local isBlock, Block = turtle.inspectDown()
+    if not isBlock then
+      local slot = findItem(block)
+      repeat
+        slot = findItem(block)
+      until slot ~= 0 and slot ~= nil
+      turtle.select(slot)
+      turtle.placeDown()
     end
     currentL = currentL + 1
 
@@ -137,8 +151,9 @@ function main()
     backward = not backward
     -- move()
   end
+  toStart()
 end
 
 -- Init
-print("Running PLACE with Length="..l..", Width="..w)
+print("Running PLACE with Length="..l..", Width="..w..", Placing \""..block.."\"")
 main()
